@@ -11,8 +11,13 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    blusage.cpp \
+    accountdialog.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    blusage.h \
+    accountdialog.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    accountdialog.ui

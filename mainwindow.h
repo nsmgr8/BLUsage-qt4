@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <qnetworkaccessmanager.h>
 
+#include "blusage.h"
+
 namespace Ui {
     class MainWindow;
 }
@@ -25,6 +27,8 @@ protected slots:
 private:
     Ui::MainWindow *ui;
     QNetworkAccessManager *networkAccessManager;
+
+    BLUsage usageModel;
 };
 
 #endif // MAINWINDOW_H
