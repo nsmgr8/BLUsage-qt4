@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include "treemodel.h"
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -17,6 +19,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     this->connect(ui->actionAccount, SIGNAL(triggered()), SLOT(showAccountEditor()));
     this->connect(ui->actionUpdate, SIGNAL(triggered()), SLOT(updateUsage()));
+
+    TreeModel *model = new TreeModel("Col11\tCol12\n Col21\tCol22\n  Col31\tCol32", this);
+    ui->treeView->setModel(model);
 }
 
 MainWindow::~MainWindow()
