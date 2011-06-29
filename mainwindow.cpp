@@ -5,6 +5,8 @@
 #include <qnetworkreply.h>
 #include <qmessagebox.h>
 
+#include "treemodel.h"
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -25,6 +27,9 @@ MainWindow::MainWindow(QWidget *parent) :
     networkAccessManager = new QNetworkAccessManager;
     this->connect(networkAccessManager, SIGNAL(finished(QNetworkReply*)), SLOT(fetchedUsages(QNetworkReply*)));
     this->connect(networkAccessManager, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)), SLOT(allowConnection(QNetworkReply*)));
+
+    TreeModel *model = new TreeModel("Col11\tCol12\n Col21\tCol22\n  Col31\tCol32", this);
+    ui->treeView->setModel(model);
 }
 
 MainWindow::~MainWindow()
