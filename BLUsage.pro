@@ -13,10 +13,15 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     treeitem.cpp \
-    treemodel.cpp
+    treemodel.cpp \
+    blusage.cpp \
+    accountdialog.cpp
 
 HEADERS  += mainwindow.h \
     treeitem.h \
-    treemodel.h
+    treemodel.h \
+    blusage.h \
+    accountdialog.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    accountdialog.ui

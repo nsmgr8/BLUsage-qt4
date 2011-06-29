@@ -1,6 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include "blusage.h"
+#include "accountdialog.h"
+
 #include <qnetworkrequest.h>
 #include <qnetworkreply.h>
 #include <qmessagebox.h>
@@ -30,6 +33,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
     TreeModel *model = new TreeModel("Col11\tCol12\n Col21\tCol22\n  Col31\tCol32", this);
     ui->treeView->setModel(model);
+
+    if (usageModel.username.isEmpty()) {
+        showAccountEditor();
+    }
+
+    ui->accountName->setText(usageModel.name);
 }
 
 MainWindow::~MainWindow()
@@ -40,29 +49,33 @@ MainWindow::~MainWindow()
 
 void MainWindow::showAccountEditor() {
     qDebug("Open the account editor");
+    AccountDialog dialog(&usageModel, this);
+    int value = dialog.exec();
+    ui->accountName->setText(usageModel.name);
 }
 
 void MainWindow::updateUsage() {
     QUrl url = QUrl(QString("https://care.banglalionwimax.com/User"));
-    QString username = "abcd.1234";
-    QString password = "123456";
-    QByteArray auth = QString("").append(username).append(":").append(password).toLocal8Bit();
+    QString auth = QString("%1:%2").arg(usageModel.username).arg(usageModel.password);
 
     QNetworkRequest request = QNetworkRequest(url);
-    request.setRawHeader("Authorization", QString("Basic " + QByteArray(auth.toBase64())).toLocal8Bit());
+    request.setRawHeader("Authorization", QString("Basic " + QByteArray(auth.toLocal8Bit().toBase64())).toLocal8Bit());
 
     QByteArray postData;
     postData.append("Page=UsrSesHit&");
     postData.append("Title=Session Calls&");
-    postData.append(QString("UserID=").append(username).append("&"));
-    postData.append("StartDate=03/06/2011&");
-    postData.append("EndDate=02/07/2011&");
+    postData.append(QString("UserID=%1&").arg(usageModel.username));
+    postData.append(QString("StartDate=%1&").arg(usageModel.start.toString("dd/MM/yyyy")));
+    postData.append(QString("EndDate=%1&").arg(usageModel.end.toString("dd/MM/yyyy")));
     postData.append("Submit=Submit");
 
     networkAccessManager->post(request, postData);
+    ui->updateButton->setEnabled(false);
 }
 
 void MainWindow::fetchedUsages(QNetworkReply *reply) {
+    ui->updateButton->setEnabled(true);
+
     QString title;
     QString message;
 
@@ -73,7 +86,7 @@ void MainWindow::fetchedUsages(QNetworkReply *reply) {
         message = QString("Please check your account credentials.");
         break;
     case QNetworkReply::NoError:
-        qDebug(reply->readAll());
+        qDebug(QString(reply->readAll()).toLocal8Bit());
         return;
     default:
         title = QString("An error occured");
