@@ -25,6 +25,8 @@ protected slots:
     void fetchedUsages(QNetworkReply *reply);
     void allowConnection(QNetworkReply *reply);
 
+    void about();
+
 private:
     Ui::MainWindow *ui;
     QNetworkAccessManager *networkAccessManager;

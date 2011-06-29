@@ -14,16 +14,21 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QMenu *menu = new QMenu(QString("File"), this);
-    menu->addAction(ui->actionAccount);
-    menu->addAction(ui->actionUpdate);
-    menu->addSeparator();
-    menu->addAction(ui->actionQuit);
+    QMenu *menuFile = new QMenu(QString("File"), this);
+    menuFile->addAction(ui->actionAccount);
+    menuFile->addAction(ui->actionUpdate);
+    menuFile->addSeparator();
+    menuFile->addAction(ui->actionQuit);
 
-    ui->menuBar->addMenu(menu);
+    QMenu *menuHelp = new QMenu("Help", this);
+    menuHelp->addAction(ui->actionAbout);
+
+    ui->menuBar->addMenu(menuFile);
+    ui->menuBar->addMenu(menuHelp);
 
     this->connect(ui->actionAccount, SIGNAL(triggered()), SLOT(showAccountEditor()));
     this->connect(ui->actionUpdate, SIGNAL(triggered()), SLOT(updateUsage()));
+    this->connect(ui->actionAbout, SIGNAL(triggered()), SLOT(about()));
 
     networkAccessManager = new QNetworkAccessManager;
     this->connect(networkAccessManager, SIGNAL(finished(QNetworkReply*)), SLOT(fetchedUsages(QNetworkReply*)));
@@ -47,6 +52,10 @@ MainWindow::~MainWindow()
     delete treeModel;
     delete networkAccessManager;
     delete ui;
+}
+
+void MainWindow::about() {
+    QMessageBox::about(this, "BLUsage", "Bangla Lion bandwidth usage viewer.\nVersion 1.0\nAuthor: M. Nasimul Haque\nemail: nasim.haque@gmail.com\nweb: http://www.nasim.me.uk");
 }
 
 void MainWindow::showAccountEditor() {
