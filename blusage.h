@@ -3,6 +3,12 @@
 
 #include <QtCore>
 
+struct DailyUsage {
+    QString day;
+    int dataUsed;
+    QList<QStringList> detail;
+};
+
 class BLUsage
 {
 public:
@@ -18,7 +24,8 @@ public:
     QDate end;
     QDateTime lastUpdate;
 
-    QList<QStringList> usage;
+    QList<DailyUsage> usage;
+    int totalKB;
 
     QString errorString();
 

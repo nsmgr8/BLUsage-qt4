@@ -118,6 +118,7 @@ void MainWindow::showLastUpdate() {
         ui->statusBar->showMessage("Ready");
     }
     else {
+        ui->totalLabel->setText(QString("Totals usage: <b>%1 KB</b>").arg(usageModel.totalKB));
         ui->statusBar->showMessage(usageModel.lastUpdate.toString("dd MMM, yyyy HH:mm").prepend("Last updated on: "));
     }
 }

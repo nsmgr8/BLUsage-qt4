@@ -50,7 +50,7 @@
 #include "treeitem.h"
 #include "treemodel.h"
 
-TreeModel::TreeModel(const QList<QStringList> &data, QObject *parent)
+TreeModel::TreeModel(const QList<DailyUsage> &data, QObject *parent)
     : QAbstractItemModel(parent)
 {
     QList<QVariant> rootData;
@@ -153,38 +153,23 @@ int TreeModel::rowCount(const QModelIndex &parent) const
     return parentItem->childCount();
 }
 
-void TreeModel::setupModelData(const QList<QStringList> &lines, TreeItem *parent)
+void TreeModel::setupModelData(const QList<DailyUsage> &usages, TreeItem *parent)
 {
-    QStringList l;
-    QString date;
-    QList<QVariant> daily;
-    QList<QStringList> timely;
-    TreeItem *child;
-
-    int usedData;
-    for (int i=0; i<lines.size(); i++) {
-        l = lines[i];
-        if (date != l[0]) {
-            if (!date.isEmpty()) {
-                daily.append(QString("%1").arg(usedData));
-                daily.append(QString("%1").arg(usedData/1024.0));
-                child = new TreeItem(daily, parent);
-                parent->appendChild(child);
-                for (int j=0; j<timely.size(); j++) {
-                    QList<QVariant> data;
-                    data << timely[j][1] << timely[j][2];
-                    child->appendChild(new TreeItem(data, child));
-                }
-            }
-            date = l[0];
-            usedData = l[2].toInt();
-            daily.clear();
-            daily.append(date);
-            timely.clear();
+    QList<QVariant> items;
+    for (int i=0; i<usages.size(); i++) {
+        DailyUsage daily = usages[i];
+        items.clear();
+        items.append(daily.day);
+        items.append(daily.dataUsed);
+        items.append(daily.dataUsed / 1024.0);
+        TreeItem *child = new TreeItem(items, parent);
+        parent->appendChild(child);
+        for (int j=0; j<daily.detail.size(); j++) {
+            items.clear();
+            QStringList l = daily.detail[j];
+            items.append(l[0]);
+            items.append(l[1]);
+            child->appendChild(new TreeItem(items, child));
         }
-        else {
-            usedData += l[2].toInt();
-        }
-        timely.append(l);
     }
 }

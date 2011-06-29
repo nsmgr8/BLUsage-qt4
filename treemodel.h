@@ -45,6 +45,8 @@
 #include <QModelIndex>
 #include <QVariant>
 
+#include "blusage.h"
+
 class TreeItem;
 
 class TreeModel : public QAbstractItemModel
@@ -52,7 +54,7 @@ class TreeModel : public QAbstractItemModel
     Q_OBJECT
 
 public:
-    TreeModel(const QList<QStringList> &data, QObject *parent = 0);
+    TreeModel(const QList<DailyUsage> &data, QObject *parent = 0);
     ~TreeModel();
 
     QVariant data(const QModelIndex &index, int role) const;
@@ -66,7 +68,7 @@ public:
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
 
 private:
-    void setupModelData(const QList<QStringList> &lines, TreeItem *parent);
+    void setupModelData(const QList<DailyUsage> &lines, TreeItem *parent);
 
     TreeItem *rootItem;
 };

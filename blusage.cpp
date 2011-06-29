@@ -60,13 +60,31 @@ bool BLUsage::parse(QString html) {
     }
 
     usage.clear();
+    QString date;
+    QList<QStringList> timely;
+    int dataKB;
+    totalKB = 0;
     for (int i=1; i<rows.size()-1; i++) {
         QDomNodeList tds = rows.at(i).childNodes();
         QStringList l;
         for (int j=2; j<5; j++) {
             l << tds.at(j).firstChildElement().text();
         }
-        usage.append(l);
+        if (date != l[0]) {
+            if (!date.isEmpty()) {
+                DailyUsage daily;
+                daily.day = date;
+                daily.dataUsed = dataKB;
+                daily.detail = timely;
+                totalKB += dataKB;
+                usage.append(daily);
+            }
+            timely.clear();
+            date = l[0];
+            dataKB = 0;
+        }
+        dataKB += l[2].toInt();
+        timely.append(QStringList() << l[1] << l[2]);
     }
 
     lastUpdate = QDateTime::currentDateTime();
