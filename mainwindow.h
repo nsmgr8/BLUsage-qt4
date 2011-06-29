@@ -5,6 +5,7 @@
 #include <qnetworkaccessmanager.h>
 
 #include "blusage.h"
+#include "treemodel.h"
 
 namespace Ui {
     class MainWindow;
@@ -29,6 +30,7 @@ private:
     QNetworkAccessManager *networkAccessManager;
 
     BLUsage usageModel;
+    TreeModel *treeModel;
 };
 
 #endif // MAINWINDOW_H

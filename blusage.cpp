@@ -64,7 +64,7 @@ bool BLUsage::parse(QString html) {
         QDomNodeList tds = rows.at(i).childNodes();
         QStringList l;
         for (int j=2; j<5; j++) {
-            l << tds.at(2).firstChildElement().text();
+            l << tds.at(j).firstChildElement().text();
         }
         usage.append(l);
     }

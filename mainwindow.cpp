@@ -8,8 +8,6 @@
 #include <qnetworkreply.h>
 #include <qmessagebox.h>
 
-#include "treemodel.h"
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -31,8 +29,9 @@ MainWindow::MainWindow(QWidget *parent) :
     this->connect(networkAccessManager, SIGNAL(finished(QNetworkReply*)), SLOT(fetchedUsages(QNetworkReply*)));
     this->connect(networkAccessManager, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)), SLOT(allowConnection(QNetworkReply*)));
 
-    TreeModel *model = new TreeModel("Col11\tCol12\n Col21\tCol22\n  Col31\tCol32", this);
-    ui->treeView->setModel(model);
+    treeModel = new TreeModel(usageModel.usage);
+    ui->treeView->setModel(treeModel);
+    ui->treeView->resizeColumnToContents(0);
 
     if (usageModel.username.isEmpty()) {
         showAccountEditor();
@@ -43,6 +42,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    delete treeModel;
     delete networkAccessManager;
     delete ui;
 }
@@ -87,6 +87,12 @@ void MainWindow::fetchedUsages(QNetworkReply *reply) {
         if (!usageModel.parse(QString(reply->readAll()))) {
             title = "Parsing error";
             message = usageModel.errorString();
+        }
+        else {
+            treeModel->deleteLater();
+            treeModel = new TreeModel(usageModel.usage);
+            ui->treeView->setModel(treeModel);
+            ui->treeView->resizeColumnToContents(0);
         }
         return;
     default:

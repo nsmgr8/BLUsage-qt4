@@ -50,13 +50,13 @@
 #include "treeitem.h"
 #include "treemodel.h"
 
-TreeModel::TreeModel(const QString &data, QObject *parent)
+TreeModel::TreeModel(const QList<QStringList> &data, QObject *parent)
     : QAbstractItemModel(parent)
 {
     QList<QVariant> rootData;
-    rootData << "Title" << "Summary";
+    rootData << "Date" << "Data (KB)" << "Data (MB)";
     rootItem = new TreeItem(rootData);
-    setupModelData(data.split(QString("\n")), rootItem);
+    setupModelData(data, rootItem);
 }
 
 TreeModel::~TreeModel()
@@ -76,6 +76,9 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid())
         return QVariant();
+
+    if (role == Qt::TextAlignmentRole)
+        return Qt::AlignRight;
 
     if (role != Qt::DisplayRole)
         return QVariant();
@@ -150,51 +153,38 @@ int TreeModel::rowCount(const QModelIndex &parent) const
     return parentItem->childCount();
 }
 
-void TreeModel::setupModelData(const QStringList &lines, TreeItem *parent)
+void TreeModel::setupModelData(const QList<QStringList> &lines, TreeItem *parent)
 {
-    QList<TreeItem*> parents;
-    QList<int> indentations;
-    parents << parent;
-    indentations << 0;
+    QStringList l;
+    QString date;
+    QList<QVariant> daily;
+    QList<QStringList> timely;
+    TreeItem *child;
 
-    int number = 0;
-
-    while (number < lines.count()) {
-        int position = 0;
-        while (position < lines[number].length()) {
-            if (lines[number].mid(position, 1) != " ")
-                break;
-            position++;
-        }
-
-        QString lineData = lines[number].mid(position).trimmed();
-
-        if (!lineData.isEmpty()) {
-            // Read the column data from the rest of the line.
-            QStringList columnStrings = lineData.split("\t", QString::SkipEmptyParts);
-            QList<QVariant> columnData;
-            for (int column = 0; column < columnStrings.count(); ++column)
-                columnData << columnStrings[column];
-
-            if (position > indentations.last()) {
-                // The last child of the current parent is now the new parent
-                // unless the current parent has no children.
-
-                if (parents.last()->childCount() > 0) {
-                    parents << parents.last()->child(parents.last()->childCount()-1);
-                    indentations << position;
-                }
-            } else {
-                while (position < indentations.last() && parents.count() > 0) {
-                    parents.pop_back();
-                    indentations.pop_back();
+    int usedData;
+    for (int i=0; i<lines.size(); i++) {
+        l = lines[i];
+        if (date != l[0]) {
+            if (!date.isEmpty()) {
+                daily.append(QString("%1").arg(usedData));
+                daily.append(QString("%1").arg(usedData/1024.0));
+                child = new TreeItem(daily, parent);
+                parent->appendChild(child);
+                for (int j=0; j<timely.size(); j++) {
+                    QList<QVariant> data;
+                    data << timely[j][1] << timely[j][2];
+                    child->appendChild(new TreeItem(data, child));
                 }
             }
-
-            // Append a new item to the current parent's list of children.
-            parents.last()->appendChild(new TreeItem(columnData, parents.last()));
+            date = l[0];
+            usedData = l[2].toInt();
+            daily.clear();
+            daily.append(date);
+            timely.clear();
         }
-
-        number++;
+        else {
+            usedData += l[2].toInt();
+        }
+        timely.append(l);
     }
 }
