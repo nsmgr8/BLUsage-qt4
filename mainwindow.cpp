@@ -38,6 +38,8 @@ MainWindow::MainWindow(QWidget *parent) :
     }
 
     ui->accountName->setText(usageModel.name);
+    ui->progressBar->setHidden(true);
+    showLastUpdate();
 }
 
 MainWindow::~MainWindow()
@@ -69,10 +71,13 @@ void MainWindow::updateUsage() {
 
     networkAccessManager->post(request, postData);
     ui->updateButton->setEnabled(false);
+    ui->progressBar->setHidden(false);
+    ui->statusBar->showMessage("Please wait...");
 }
 
 void MainWindow::fetchedUsages(QNetworkReply *reply) {
     ui->updateButton->setEnabled(true);
+    ui->progressBar->setHidden(true);
 
     QString title;
     QString message;
@@ -93,6 +98,7 @@ void MainWindow::fetchedUsages(QNetworkReply *reply) {
             treeModel = new TreeModel(usageModel.usage);
             ui->treeView->setModel(treeModel);
             ui->treeView->resizeColumnToContents(0);
+            showLastUpdate();
         }
         return;
     default:
@@ -105,4 +111,13 @@ void MainWindow::fetchedUsages(QNetworkReply *reply) {
 
 void MainWindow::allowConnection(QNetworkReply *reply) {
     reply->ignoreSslErrors();
+}
+
+void MainWindow::showLastUpdate() {
+    if (usageModel.lastUpdate.isNull()) {
+        ui->statusBar->showMessage("Ready");
+    }
+    else {
+        ui->statusBar->showMessage(usageModel.lastUpdate.toString("dd MMM, yyyy HH:mm").prepend("Last updated on: "));
+    }
 }

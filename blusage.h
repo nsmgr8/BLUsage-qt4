@@ -16,6 +16,7 @@ public:
 
     QDate start;
     QDate end;
+    QDateTime lastUpdate;
 
     QList<QStringList> usage;
 

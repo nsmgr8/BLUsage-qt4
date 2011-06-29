@@ -49,7 +49,7 @@ bool BLUsage::parse(QString html) {
 
     QDomDocument doc("blusage");
     if (!doc.setContent(html)) {
-        error = "Could not parse it!!";
+        error = "Could not find data.";
         return false;
     }
 
@@ -68,6 +68,8 @@ bool BLUsage::parse(QString html) {
         }
         usage.append(l);
     }
+
+    lastUpdate = QDateTime::currentDateTime();
 
     return true;
 }

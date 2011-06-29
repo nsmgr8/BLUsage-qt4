@@ -31,6 +31,8 @@ private:
 
     BLUsage usageModel;
     TreeModel *treeModel;
+
+    void showLastUpdate();
 };
 
 #endif // MAINWINDOW_H
