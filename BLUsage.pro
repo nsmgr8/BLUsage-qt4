@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network
+QT       += core gui network xml
 
 TARGET = BLUsage
 TEMPLATE = app
@@ -25,3 +25,5 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui \
     accountdialog.ui
+
+LIBS += -L/usr/lib -ltidy

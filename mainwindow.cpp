@@ -48,9 +48,7 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::showAccountEditor() {
-    qDebug("Open the account editor");
-    AccountDialog dialog(&usageModel, this);
-    int value = dialog.exec();
+    AccountDialog(&usageModel, this).exec();
     ui->accountName->setText(usageModel.name);
 }
 
@@ -86,7 +84,10 @@ void MainWindow::fetchedUsages(QNetworkReply *reply) {
         message = QString("Please check your account credentials.");
         break;
     case QNetworkReply::NoError:
-        qDebug(QString(reply->readAll()).toLocal8Bit());
+        if (!usageModel.parse(QString(reply->readAll()))) {
+            title = "Parsing error";
+            message = usageModel.errorString();
+        }
         return;
     default:
         title = QString("An error occured");
