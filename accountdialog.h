@@ -14,13 +14,13 @@ class AccountDialog : public QDialog
     Q_OBJECT
 
 public:
-    AccountDialog(BLUsage *model, QWidget *parent = 0);
+    AccountDialog(blusage::BLUsage *model, QWidget *parent = 0);
     ~AccountDialog();
 
     void accept();
 private:
     Ui::AccountDialog *ui;
-    BLUsage *model;
+    blusage::BLUsage *model;
 };
 
 #endif // ACCOUNTDIALOG_H

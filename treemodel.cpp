@@ -50,7 +50,7 @@
 #include "treeitem.h"
 #include "treemodel.h"
 
-TreeModel::TreeModel(const QList<DailyUsage> &data, QObject *parent)
+TreeModel::TreeModel(const QList<blusage::DailyUsage> &data, QObject *parent)
     : QAbstractItemModel(parent)
 {
     QList<QVariant> rootData;
@@ -153,11 +153,11 @@ int TreeModel::rowCount(const QModelIndex &parent) const
     return parentItem->childCount();
 }
 
-void TreeModel::setupModelData(const QList<DailyUsage> &usages, TreeItem *parent)
+void TreeModel::setupModelData(const QList<blusage::DailyUsage> &usages, TreeItem *parent)
 {
     QList<QVariant> items;
     for (int i=0; i<usages.size(); i++) {
-        DailyUsage daily = usages[i];
+        blusage::DailyUsage daily = usages[i];
         items.clear();
         items.append(daily.day);
         items.append(daily.dataUsed);

@@ -31,7 +31,7 @@ private:
     Ui::MainWindow *ui;
     QNetworkAccessManager *networkAccessManager;
 
-    BLUsage usageModel;
+    blusage::BLUsage usageModel;
     TreeModel *treeModel;
 
     QString fileName;

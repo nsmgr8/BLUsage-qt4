@@ -1,7 +1,7 @@
 #include "accountdialog.h"
 #include "ui_accountdialog.h"
 
-AccountDialog::AccountDialog(BLUsage *model, QWidget *parent) :
+AccountDialog::AccountDialog(blusage::BLUsage *model, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AccountDialog)
 {

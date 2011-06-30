@@ -4,6 +4,8 @@
 #include <tidy/tidy.h>
 #include <tidy/buffio.h>
 
+namespace blusage {
+
 BLUsage::BLUsage(){
     QDate today = QDate::currentDate();
     start = QDate(today.year(), today.month(), 1);
@@ -155,4 +157,6 @@ QDataStream &operator>>(QDataStream &in, BLUsage &usage) {
        >> usage.start >> usage.end >> usage.lastUpdate
        >> usage.totalKB >> usage.capKB >> usage.usage;
     return in;
+}
+
 }

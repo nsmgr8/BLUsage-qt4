@@ -3,6 +3,8 @@
 
 #include <QtCore>
 
+namespace blusage {
+
 struct DailyUsage {
     QString day;
     quint32 dataUsed;
@@ -32,7 +34,7 @@ public:
     quint32 capKB;
 
     QString errorString();
-    QString smartBytes(int kb);
+    static QString smartBytes(int kb);
 
 private:
     QString tidy(const char* html);
@@ -42,5 +44,7 @@ private:
 
 QDataStream &operator<<(QDataStream &out, const BLUsage &usage);
 QDataStream &operator>>(QDataStream &in, BLUsage &usage);
+
+}
 
 #endif // BLUSAGE_H
