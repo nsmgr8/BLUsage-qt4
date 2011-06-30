@@ -31,6 +31,7 @@ public:
     int totalKB;
 
     QString errorString();
+    QString smartBytes();
 
 private:
     QString tidy(const char* html);

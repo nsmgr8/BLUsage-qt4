@@ -58,7 +58,7 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::about() {
-    QMessageBox::about(this, "BLUsage", "Bangla Lion bandwidth usage viewer.\nVersion 1.0\nAuthor: M. Nasimul Haque\nemail: nasim.haque@gmail.com\nweb: http://www.nasim.me.uk");
+    QMessageBox::about(this, "BLUsage", "Bangla Lion bandwidth usage viewer.\n\n\tVersion 1.0\n\nAuthor: M. Nasimul Haque\n\nemail: nasim.haque@gmail.com\n\nweb: http://www.nasim.me.uk");
 }
 
 void MainWindow::showAccountEditor() {
@@ -132,7 +132,7 @@ void MainWindow::showLastUpdate() {
         ui->statusBar->showMessage("Ready");
     }
     else {
-        ui->totalLabel->setText(QString("Totals usage: <b>%1 KB</b>").arg(usageModel.totalKB));
+        ui->totalLabel->setText(QString("Totals usage: <b>%1</b>").arg(usageModel.smartBytes()));
         ui->statusBar->showMessage(usageModel.lastUpdate.toString("dd MMM, yyyy HH:mm").prepend("Last updated on: "));
     }
 }

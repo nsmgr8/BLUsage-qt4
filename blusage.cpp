@@ -123,6 +123,15 @@ QString BLUsage::tidy(const char* input) {
     return html;
 }
 
+QString BLUsage::smartBytes() {
+    int kb = totalKB;
+    if (kb < 1500)
+        return QString("%1 KB").arg(kb);
+    if (kb < 1500000)
+        return QString("%1 MB").arg(kb / 1024.0);
+    return QString("%1 GB").arg(kb / (1024.0 * 1024.0));
+}
+
 QDataStream &operator<<(QDataStream &out, const DailyUsage &daily) {
     out << daily.day << daily.dataUsed << daily.detail;
     return out;
