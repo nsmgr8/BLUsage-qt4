@@ -34,7 +34,11 @@ private:
     BLUsage usageModel;
     TreeModel *treeModel;
 
+    QString fileName;
+
     void showLastUpdate();
+    void readUsage();
+    void writeUsage();
 };
 
 #endif // MAINWINDOW_H

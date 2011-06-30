@@ -9,6 +9,9 @@ struct DailyUsage {
     QList<QStringList> detail;
 };
 
+QDataStream &operator<<(QDataStream &out, const DailyUsage &daily);
+QDataStream &operator>>(QDataStream &in, DailyUsage &daily);
+
 class BLUsage
 {
 public:
@@ -34,5 +37,8 @@ private:
 
     QString error;
 };
+
+QDataStream &operator<<(QDataStream &out, const BLUsage &usage);
+QDataStream &operator>>(QDataStream &in, BLUsage &usage);
 
 #endif // BLUSAGE_H

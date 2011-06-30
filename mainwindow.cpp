@@ -34,6 +34,9 @@ MainWindow::MainWindow(QWidget *parent) :
     this->connect(networkAccessManager, SIGNAL(finished(QNetworkReply*)), SLOT(fetchedUsages(QNetworkReply*)));
     this->connect(networkAccessManager, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)), SLOT(allowConnection(QNetworkReply*)));
 
+    fileName = QDir::homePath().append("/.BLUsage.dat");
+    readUsage();
+
     treeModel = new TreeModel(usageModel.usage);
     ui->treeView->setModel(treeModel);
     ui->treeView->resizeColumnToContents(0);
@@ -61,6 +64,7 @@ void MainWindow::about() {
 void MainWindow::showAccountEditor() {
     AccountDialog(&usageModel, this).exec();
     ui->accountName->setText(usageModel.name);
+    writeUsage();
 }
 
 void MainWindow::updateUsage() {
@@ -108,6 +112,7 @@ void MainWindow::fetchedUsages(QNetworkReply *reply) {
             ui->treeView->setModel(treeModel);
             ui->treeView->resizeColumnToContents(0);
             showLastUpdate();
+            writeUsage();
         }
         return;
     default:
@@ -130,4 +135,22 @@ void MainWindow::showLastUpdate() {
         ui->totalLabel->setText(QString("Totals usage: <b>%1 KB</b>").arg(usageModel.totalKB));
         ui->statusBar->showMessage(usageModel.lastUpdate.toString("dd MMM, yyyy HH:mm").prepend("Last updated on: "));
     }
+}
+
+void MainWindow::readUsage() {
+    QFile file(fileName);
+    if(!file.open(QIODevice::ReadOnly))
+        return;
+    QDataStream in(&file);
+    in >> usageModel;
+    file.close();
+}
+
+void MainWindow::writeUsage() {
+    QFile file(fileName);
+    if(!file.open(QIODevice::WriteOnly))
+        return;
+    QDataStream out(&file);
+    out << usageModel;
+    file.close();
 }

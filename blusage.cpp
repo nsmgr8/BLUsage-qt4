@@ -122,3 +122,23 @@ QString BLUsage::tidy(const char* input) {
 
     return html;
 }
+
+QDataStream &operator<<(QDataStream &out, const DailyUsage &daily) {
+    out << daily.day << daily.dataUsed << daily.detail;
+    return out;
+}
+
+QDataStream &operator>>(QDataStream &in, DailyUsage &daily) {
+    in >> daily.day >> daily.dataUsed >> daily.detail;
+    return in;
+}
+
+QDataStream &operator<<(QDataStream &out, const BLUsage &usage) {
+    out << usage.name << usage.username << usage.password << usage.start << usage.end << usage.lastUpdate << usage.totalKB << usage.usage;
+    return out;
+}
+
+QDataStream &operator>>(QDataStream &in, BLUsage &usage) {
+    in >> usage.name >> usage.username >> usage.password >> usage.start >> usage.end >> usage.lastUpdate >> usage.totalKB >> usage.usage;
+    return in;
+}
