@@ -14,6 +14,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    this->setWindowIcon(QIcon(":/blusage.png"));
+
     QMenu *menuFile = new QMenu(QString("File"), this);
     menuFile->addAction(ui->actionAccount);
     menuFile->addAction(ui->actionUpdate);
@@ -45,6 +47,7 @@ MainWindow::MainWindow(QWidget *parent) :
         showAccountEditor();
     }
 
+    ui->treeView->setAlternatingRowColors(true);
     ui->accountName->setText(usageModel.name);
     ui->progressBar->setHidden(true);
     showLastUpdate();

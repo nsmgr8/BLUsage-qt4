@@ -27,3 +27,6 @@ FORMS    += mainwindow.ui \
     accountdialog.ui
 
 LIBS += -L/usr/lib -ltidy
+
+RESOURCES += \
+    blusage.qrc
