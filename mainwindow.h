@@ -24,6 +24,7 @@ protected slots:
     void updateUsage();
     void fetchedUsages(QNetworkReply *reply);
     void allowConnection(QNetworkReply *reply);
+    void showProgress(qint64 received, qint64 total);
 
     void about();
 

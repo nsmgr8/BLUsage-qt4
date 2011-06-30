@@ -83,15 +83,19 @@ void MainWindow::updateUsage() {
     postData.append(QString("EndDate=%1&").arg(usageModel.end.toString("dd/MM/yyyy")));
     postData.append("Submit=Submit");
 
-    networkAccessManager->post(request, postData);
+    QNetworkReply *reply = networkAccessManager->post(request, postData);
+    this->connect(reply, SIGNAL(downloadProgress(qint64,qint64)), SLOT(showProgress(qint64,qint64)));
+
     ui->updateButton->setEnabled(false);
     ui->progressBar->setHidden(false);
+    ui->progressBar->setValue(0);
     ui->statusBar->showMessage("Please wait...");
 }
 
 void MainWindow::fetchedUsages(QNetworkReply *reply) {
     ui->updateButton->setEnabled(true);
     ui->progressBar->setHidden(true);
+    reply->disconnect(this, SLOT(showProgress(qint64,qint64)));
 
     QString title;
     QString message;
@@ -122,10 +126,17 @@ void MainWindow::fetchedUsages(QNetworkReply *reply) {
     }
 
     QMessageBox::critical(this, title, message, QString("OK"));
+    reply->deleteLater();
 }
 
 void MainWindow::allowConnection(QNetworkReply *reply) {
     reply->ignoreSslErrors();
+}
+
+void MainWindow::showProgress(qint64 received, qint64 total) {
+    if (total <= 0)
+        total = 100000;
+    ui->progressBar->setValue(float(received)/float(total)*100.);
 }
 
 void MainWindow::showLastUpdate() {
