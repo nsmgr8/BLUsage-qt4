@@ -68,6 +68,30 @@
      <widget class="QTreeView" name="treeView"/>
     </item>
     <item row="2" column="0">
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <item>
+       <widget class="QLabel" name="remainingLabel">
+        <property name="text">
+         <string>Remaining: &lt;b&gt;Unlimited&lt;/b&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QProgressBar" name="progressBar">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="maximum">
+         <number>0</number>
+        </property>
+        <property name="value">
+         <number>-1</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="3" column="0">
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
        <widget class="QLabel" name="totalLabel">
@@ -97,19 +121,6 @@
        </widget>
       </item>
      </layout>
-    </item>
-    <item row="3" column="0">
-     <widget class="QProgressBar" name="progressBar">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="maximum">
-       <number>0</number>
-      </property>
-      <property name="value">
-       <number>-1</number>
-      </property>
-     </widget>
     </item>
    </layout>
   </widget>

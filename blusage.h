@@ -5,7 +5,7 @@
 
 struct DailyUsage {
     QString day;
-    int dataUsed;
+    quint32 dataUsed;
     QList<QStringList> detail;
 };
 
@@ -28,10 +28,11 @@ public:
     QDateTime lastUpdate;
 
     QList<DailyUsage> usage;
-    int totalKB;
+    quint32 totalKB;
+    quint32 capKB;
 
     QString errorString();
-    QString smartBytes();
+    QString smartBytes(int kb);
 
 private:
     QString tidy(const char* html);

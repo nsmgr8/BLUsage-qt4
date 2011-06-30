@@ -8,6 +8,8 @@ BLUsage::BLUsage(){
     QDate today = QDate::currentDate();
     start = QDate(today.year(), today.month(), 1);
     end = start.addDays(29);
+    totalKB = 0;
+    capKB = 0;
 }
 
 QString BLUsage::errorString() {
@@ -62,7 +64,7 @@ bool BLUsage::parse(QString html) {
     usage.clear();
     QString date;
     QList<QStringList> timely;
-    int dataKB;
+    int dataKB = 0;
     totalKB = 0;
     for (int i=1; i<rows.size()-1; i++) {
         QDomNodeList tds = rows.at(i).childNodes();
@@ -123,8 +125,7 @@ QString BLUsage::tidy(const char* input) {
     return html;
 }
 
-QString BLUsage::smartBytes() {
-    int kb = totalKB;
+QString BLUsage::smartBytes(int kb) {
     if (kb < 1500)
         return QString("%1 KB").arg(kb);
     if (kb < 1500000)
@@ -143,11 +144,15 @@ QDataStream &operator>>(QDataStream &in, DailyUsage &daily) {
 }
 
 QDataStream &operator<<(QDataStream &out, const BLUsage &usage) {
-    out << usage.name << usage.username << usage.password << usage.start << usage.end << usage.lastUpdate << usage.totalKB << usage.usage;
+    out << usage.name << usage.username << usage.password
+        << usage.start << usage.end << usage.lastUpdate
+        << usage.totalKB << usage.capKB << usage.usage;
     return out;
 }
 
 QDataStream &operator>>(QDataStream &in, BLUsage &usage) {
-    in >> usage.name >> usage.username >> usage.password >> usage.start >> usage.end >> usage.lastUpdate >> usage.totalKB >> usage.usage;
+    in >> usage.name >> usage.username >> usage.password
+       >> usage.start >> usage.end >> usage.lastUpdate
+       >> usage.totalKB >> usage.capKB >> usage.usage;
     return in;
 }

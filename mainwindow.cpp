@@ -65,6 +65,7 @@ void MainWindow::showAccountEditor() {
     AccountDialog(&usageModel, this).exec();
     ui->accountName->setText(usageModel.name);
     writeUsage();
+    showLastUpdate();
 }
 
 void MainWindow::updateUsage() {
@@ -132,7 +133,13 @@ void MainWindow::showLastUpdate() {
         ui->statusBar->showMessage("Ready");
     }
     else {
-        ui->totalLabel->setText(QString("Totals usage: <b>%1</b>").arg(usageModel.smartBytes()));
+        ui->totalLabel->setText(QString("Totals usage: <b>%1</b>").arg(usageModel.smartBytes(usageModel.totalKB)));
+        if (usageModel.capKB > 0) {
+            ui->remainingLabel->setText(QString("Remaining: <b>%1</b>").arg(usageModel.smartBytes(usageModel.capKB - usageModel.totalKB)));
+        }
+        else {
+            ui->remainingLabel->setText("Remaining: <b>Unlimited</b>");
+        }
         ui->statusBar->showMessage(usageModel.lastUpdate.toString("dd MMM, yyyy HH:mm").prepend("Last updated on: "));
     }
 }
