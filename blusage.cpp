@@ -90,6 +90,14 @@ bool BLUsage::parse(QString html) {
         dataKB += l[2].toInt();
         timely.append(QStringList() << l[1] << l[2]);
     }
+    if (!date.isEmpty()) {
+        DailyUsage daily;
+        daily.day = date;
+        daily.dataUsed = dataKB;
+        daily.detail = timely;
+        totalKB += dataKB;
+        usage.append(daily);
+    }
 
     lastUpdate = QDateTime::currentDateTime();
 
