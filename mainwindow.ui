@@ -10,6 +10,12 @@
     <height>400</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="minimumSize">
    <size>
     <width>350</width>
@@ -82,7 +88,7 @@
          <bool>true</bool>
         </property>
         <property name="maximum">
-         <number>100</number>
+         <number>0</number>
         </property>
         <property name="value">
          <number>0</number>
@@ -135,43 +141,55 @@
      <x>0</x>
      <y>0</y>
      <width>350</width>
-     <height>25</height>
+     <height>22</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>&amp;File</string>
+    </property>
+    <addaction name="action_Account"/>
+    <addaction name="separator"/>
+    <addaction name="action_Update"/>
+    <addaction name="separator"/>
+    <addaction name="action_Quit"/>
+   </widget>
+   <widget class="QMenu" name="menu_Help">
+    <property name="title">
+     <string>&amp;Help</string>
+    </property>
+    <addaction name="action_About"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menu_Help"/>
   </widget>
-  <action name="actionAccount">
+  <action name="action_Account">
    <property name="text">
-    <string>Account</string>
-   </property>
-   <property name="toolTip">
-    <string>Edit your account</string>
+    <string>&amp;Account</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Alt+A</string>
+    <string>Meta+A</string>
    </property>
   </action>
-  <action name="actionQuit">
+  <action name="action_Update">
    <property name="text">
-    <string>Quit</string>
+    <string>&amp;Update</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Q</string>
+    <string>Meta+U</string>
    </property>
   </action>
-  <action name="actionUpdate">
+  <action name="action_Quit">
    <property name="text">
-    <string>Update</string>
-   </property>
-   <property name="toolTip">
-    <string>Update your usage list</string>
+    <string>&amp;Quit</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+U</string>
+    <string>Meta+Q</string>
    </property>
   </action>
-  <action name="actionAbout">
+  <action name="action_About">
    <property name="text">
-    <string>About</string>
+    <string>&amp;About</string>
    </property>
   </action>
  </widget>
@@ -181,12 +199,12 @@
   <connection>
    <sender>editAccount</sender>
    <signal>clicked()</signal>
-   <receiver>actionAccount</receiver>
+   <receiver>action_Account</receiver>
    <slot>trigger()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>174</x>
-     <y>73</y>
+     <x>276</x>
+     <y>49</y>
     </hint>
     <hint type="destinationlabel">
      <x>-1</x>
@@ -195,7 +213,23 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionQuit</sender>
+   <sender>updateButton</sender>
+   <signal>clicked()</signal>
+   <receiver>action_Update</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>278</x>
+     <y>350</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_Quit</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
    <slot>close()</slot>
@@ -207,22 +241,6 @@
     <hint type="destinationlabel">
      <x>174</x>
      <y>199</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>updateButton</sender>
-   <signal>clicked()</signal>
-   <receiver>actionUpdate</receiver>
-   <slot>trigger()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>286</x>
-     <y>353</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-1</x>
-     <y>-1</y>
     </hint>
    </hints>
   </connection>
