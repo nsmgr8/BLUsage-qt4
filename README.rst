@@ -1,7 +1,7 @@
 Bangla Lion Usage Viewer
 ========================
 
-:author: M. Nasimul Haque
+:author: M Nasimul Haque
 
 A cross-platform desktop viewer for Bangla Lion internet bandwidth usage.
 
