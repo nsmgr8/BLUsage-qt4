@@ -3,9 +3,10 @@ import datetime
 from BeautifulSoup import BeautifulSoup
 
 class DailyUsage(object):
-    day = ""
-    dataUsed = 0
-    detail = []
+    def __init__(self, day="", dataUsed=0, detail=[]):
+        self.day = day
+        self.dataUsed = dataUsed
+        self.detail = detail
 
 class BLUsage(object):
     name = ""
@@ -62,24 +63,16 @@ class BLUsage(object):
                 tds = [td.font.contents[0] for td in row('td')[2:]]
                 if not date == tds[0]:
                     if date:
-                        daily = DailyUsage()
-                        daily.day = date
-                        daily.dataUsed = dataKB
-                        daily.detail = timely
                         self.totalKB += dataKB
-                        self.usage.append(daily)
+                        self.usage.append(DailyUsage(date, dataKB, timely))
                     date = tds[0]
                     dataKB = 0
                     timely = []
                 dataKB += int(tds[2])
                 timely.append(tds[1:])
             if date:
-                daily = DailyUsage()
-                daily.day = date
-                daily.dataUsed = dataKB
-                daily.detail = timely
                 self.totalKB += dataKB
-                self.usage.append(daily)
+                self.usage.append(DailyUsage(date, dataKB, timely))
         except:
             self._error = 'Could not get data.'
             return False
