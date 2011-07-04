@@ -27,6 +27,9 @@ class TreeModel(QAbstractItemModel):
         return None
 
     def headerData(self, section, orientation, role):
+        if role == Qt.TextAlignmentRole:
+            return Qt.AlignRight
+
         if orientation == Qt.Horizontal and role == Qt.DisplayRole:
             return self.rootItem.data(section)
 

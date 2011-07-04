@@ -10,6 +10,9 @@ import stat
 import sys
 
 install_path = '/usr/local/blusage'
+main_pyc = os.path.join(install_path, 'main.pyc')
+desktop_launcher = os.path.expanduser('~/Desktop/BLUsage.desktop')
+png_file = os.path.join(install_path, 'blusage.png')
 
 def install_blusage():
     if not os.path.exists(install_path):
@@ -26,13 +29,14 @@ def install_blusage():
         py_compile.compile(dest)
         os.remove(dest)
 
-    shutil.copyfile('blusage.png', os.path.join(install_path, 'blusage.png'))
-    shutil.copyfile('BLUsage.desktop',
-                    os.path.expanduser('~/Desktop/BLUsage.desktop'))
+    shutil.copyfile('blusage.png', png_file)
+    shutil.copyfile('BLUsage.desktop', desktop_launcher)
 
-    main_pyc = os.path.join(install_path, 'main.pyc')
-    os.chmod(main_pyc, stat.S_IRUSR | stat.S_IXUSR | stat.S_IXOTH |
-            stat.S_IROTH | stat.S_IXGRP | stat.S_IRGRP)
+    permission = stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR | stat.S_IRGRP | \
+                 stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH
+    os.chmod(desktop_launcher, permission | stat.S_IWOTH | stat.S_IWGRP)
+    os.chmod(main_pyc, permission)
+
     parent_folder = install_path.rsplit(os.sep, 1)[0]
     bin_folder = os.path.join(parent_folder, 'bin')
     if not os.path.exists(bin_folder):
@@ -46,7 +50,7 @@ def install_blusage():
 def install_deps():
     if not os.environ['USER'] == 'root':
         print 'ERROR: This program requires root access.'
-        print 'ERROR: Use `sudo ./install.py`'
+        print 'Use `sudo %s`' % sys.argv[0]
         raise SystemExit(1)
 
     acq_progress = apt.progress.text.AcquireProgress()
@@ -110,8 +114,7 @@ def uninstall():
     shutil.rmtree(install_path)
 
     bin_file = os.path.join(install_path.rsplit(os.sep, 1)[0], 'blusage')
-    shortcut = os.path.expanduser('~/Desktop/BLUsage.desktop')
-    for f in [bin_file, shortcut]:
+    for f in [bin_file, desktop_launcher]:
         if os.path.exists(f):
             os.remove(f)
 
