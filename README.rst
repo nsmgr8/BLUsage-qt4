@@ -41,6 +41,7 @@ and greater). To install it just open up a terminal and run the following
 commands.
 
     $ cd ~/Downloads/blusage/
+
     $ sudo ./install_ubuntu.py
 
 This will install all the dependencies and BLUsage itself. After a successful
@@ -60,6 +61,7 @@ After satisfying the requirements you can either double click the `main.py`
 file or run it from the commandline via
 
     $ cd ~/Downloads/blusage
+
     $ ./main.py
 
 Mac OS X
