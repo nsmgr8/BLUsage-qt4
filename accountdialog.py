@@ -1,4 +1,4 @@
-from PySide.QtGui import QDialog, QIntValidator
+from PySide.QtGui import QDialog, QIntValidator, QMessageBox
 
 from accountdialog_UI import Ui_AccountDialog
 
@@ -22,10 +22,27 @@ class AccountDialog(QDialog, Ui_AccountDialog):
 
     def accept(self):
         self.model.name = self.accountNameEdit.text()
-        self.model.username = self.usernameEdit.text()
-        self.model.password = self.passwordEdit.text()
+        username = self.usernameEdit.text()
+        password = self.passwordEdit.text()
+        if not all([username, password]):
+            QMessageBox.critical(self, "Username & Password",
+                                "Both the username and password are required.")
+            if not username:
+                self.usernameEdit.setFocus()
+            else:
+                self.passwordEdit.setFocus()
+            return
+        self.model.username = username
+        self.model.password = password
 
-        self.model.capKB = self.capEdit.text()
+        try:
+            self.model.capKB = int(self.capEdit.text() or 0)
+        except ValueError:
+            QMessageBox.critical(self, "Invalid value",
+                                 "Please enter a number in KB for the capacity.")
+            self.capEdit.setFocus()
+            return
+
         self.model.start = self.fromDate.date()
         self.model.end = self.toDate.date()
 
