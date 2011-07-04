@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Mon Jul  4 02:53:37 2011
-#      by: pyside-uic 0.2.10 running on PySide 1.0.4
+# Created: Mon Jul  4 21:50:21 2011
+#      by: pyside-uic 0.2.9 running on PySide 1.0.3
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -48,7 +48,7 @@ class Ui_MainWindow(object):
         self.progressBar = QtGui.QProgressBar(self.centralWidget)
         self.progressBar.setEnabled(True)
         self.progressBar.setMaximum(0)
-        self.progressBar.setProperty("value", 0)
+        self.progressBar.setProperty("value", 39)
         self.progressBar.setObjectName("progressBar")
         self.horizontalLayout_3.addWidget(self.progressBar)
         self.gridLayout.addLayout(self.horizontalLayout_3, 2, 0, 1, 1)
@@ -69,7 +69,7 @@ class Ui_MainWindow(object):
         self.statusBar.setObjectName("statusBar")
         MainWindow.setStatusBar(self.statusBar)
         self.menuBar = QtGui.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 350, 22))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 350, 21))
         self.menuBar.setObjectName("menuBar")
         self.menuFile = QtGui.QMenu(self.menuBar)
         self.menuFile.setObjectName("menuFile")
@@ -100,7 +100,7 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "MainWindow", None, QtGui.QApplication.UnicodeUTF8))
+        MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "Bangla Lion Usage", None, QtGui.QApplication.UnicodeUTF8))
         self.accountName.setText(QtGui.QApplication.translate("MainWindow", "Account Name", None, QtGui.QApplication.UnicodeUTF8))
         self.editAccount.setText(QtGui.QApplication.translate("MainWindow", "&Edit Account", None, QtGui.QApplication.UnicodeUTF8))
         self.remainingLabel.setText(QtGui.QApplication.translate("MainWindow", "Remaining: <b>Unlimited</b>", None, QtGui.QApplication.UnicodeUTF8))

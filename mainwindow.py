@@ -3,7 +3,7 @@ import urllib
 import datetime
 
 from PySide.QtCore import QUrl, QSettings
-from PySide.QtGui import QMainWindow, QMessageBox
+from PySide.QtGui import QMainWindow, QMessageBox, QIcon
 from PySide.QtNetwork import (QNetworkAccessManager, QNetworkRequest,
                               QNetworkReply)
 
@@ -18,6 +18,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
+        self.setWindowIcon(QIcon(':/blusage.png'))
 
         self.action_Account.triggered.connect(self.show_account_editor)
         self.action_Update.triggered.connect(self.update_usage)
@@ -143,12 +144,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if not self.usage_model.last_update:
             self.statusBar.showMessage("Ready")
         else:
-            self.totalLabel.setText("Totals usage: <b>%s</b>" % (self.usage_model.smart_bytes(self.usage_model.totalKB),))
-            cap = int(self.usage_model.capKB)
-            if cap > 0:
-                self.remainingLabel.setText("Remaining: <b>%s</b>" % (self.usage_model.smart_bytes(cap - self.usage_model.totalKB),))
+            self.totalLabel.setText("Totals usage: <b>%s</b>" %
+                    (self.usage_model.smart_bytes(self.usage_model.totalKB),))
+            remaining = self.usage_model.remaining()
+            if isinstance(remaining, int):
+                self.remainingLabel.setText("Remaining: <b>%s</b>" %
+                        (self.usage_model.smart_bytes(remaining),))
             else:
                 self.remainingLabel.setText("Remaining: <b>Unlimited</b>")
 
-            self.statusBar.showMessage("Last updated on: " + self.usage_model.last_update.strftime("%d %b %Y, %H:%M"))
+            self.statusBar.showMessage("Last updated on: " +
+                    self.usage_model.last_update.strftime("%d %b %Y, %H:%M"))
+
+import resources
 

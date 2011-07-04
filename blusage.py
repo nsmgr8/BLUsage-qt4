@@ -80,6 +80,16 @@ class BLUsage(object):
         self.last_update = datetime.datetime.now()
         return True
 
+    def remaining(self):
+        if self.capKB == 0:
+            return "Unlimited"
+        return self.capKB - self.totalKB
+
     def smart_bytes(self, data):
-        return data
+        if data < 1500:
+            return '%d KB' % data
+        elif data < 1500000:
+            return '%.2f MB' % (data / 1024.)
+        else:
+            return '%.2f GB' % (data / (1024. * 1024.))
 
