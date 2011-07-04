@@ -1,0 +1,20 @@
+[Desktop Entry]
+Comment[en_US]=
+Comment=
+Exec=/usr/local/blusage/main.pyc
+GenericName[en_US]=Bangla Lion Usage Viewer
+GenericName=Bangla Lion Usage Viewer
+Icon=/usr/local/blusage/blusage.png
+MimeType=
+Name[en_US]=BLUsage
+Name=BLUsage
+Path=
+StartupNotify=true
+Terminal=false
+TerminalOptions=
+Type=Application
+X-DBUS-ServiceName=
+X-DBUS-StartupType=
+X-KDE-SubstituteUID=false
+X-KDE-Username=
+X-Ubuntu-Gettext-Domain=desktop_kdebase
