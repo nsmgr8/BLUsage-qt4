@@ -81,8 +81,10 @@ class BLUsage(object):
         return True
 
     def remaining(self):
-        if self.capKB == 0:
+        if not self.capKB:
             return "Unlimited"
+        if not self.totalKB:
+            return self.capKB
         return self.capKB - self.totalKB
 
     def smart_bytes(self, data):

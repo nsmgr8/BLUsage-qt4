@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Mon Jul  4 21:50:21 2011
+# Created: Mon Jul  4 23:50:54 2011
 #      by: pyside-uic 0.2.9 running on PySide 1.0.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -48,7 +48,7 @@ class Ui_MainWindow(object):
         self.progressBar = QtGui.QProgressBar(self.centralWidget)
         self.progressBar.setEnabled(True)
         self.progressBar.setMaximum(0)
-        self.progressBar.setProperty("value", 39)
+        self.progressBar.setProperty("value", 734)
         self.progressBar.setObjectName("progressBar")
         self.horizontalLayout_3.addWidget(self.progressBar)
         self.gridLayout.addLayout(self.horizontalLayout_3, 2, 0, 1, 1)
@@ -113,6 +113,6 @@ class Ui_MainWindow(object):
         self.action_Update.setText(QtGui.QApplication.translate("MainWindow", "&Update", None, QtGui.QApplication.UnicodeUTF8))
         self.action_Update.setShortcut(QtGui.QApplication.translate("MainWindow", "Meta+U", None, QtGui.QApplication.UnicodeUTF8))
         self.action_Quit.setText(QtGui.QApplication.translate("MainWindow", "&Quit", None, QtGui.QApplication.UnicodeUTF8))
-        self.action_Quit.setShortcut(QtGui.QApplication.translate("MainWindow", "Meta+Q", None, QtGui.QApplication.UnicodeUTF8))
+        self.action_Quit.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+Q", None, QtGui.QApplication.UnicodeUTF8))
         self.action_About.setText(QtGui.QApplication.translate("MainWindow", "&About", None, QtGui.QApplication.UnicodeUTF8))
 
