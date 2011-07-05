@@ -6,7 +6,7 @@ class TreeModel(QAbstractItemModel):
 
     def __init__(self, data, parent=None):
         super(TreeModel, self).__init__(parent)
-        self.rootItem = TreeItem(['Date', 'Data (KB)'], None)
+        self.rootItem = TreeItem(['Date', 'Data (KB)', 'Data (MB)'], None)
         self.setupModel(data)
 
     def columnCount(self, parent):
