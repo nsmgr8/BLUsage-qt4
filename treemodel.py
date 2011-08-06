@@ -75,5 +75,6 @@ class TreeModel(QAbstractItemModel):
             child = TreeItem(items, self.rootItem)
             self.rootItem.childItems.append(child)
             for detail in daily.detail:
+                detail.append('')
                 child.childItems.append(TreeItem(detail, child))
 

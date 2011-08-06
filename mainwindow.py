@@ -3,7 +3,7 @@ import urllib
 import datetime
 
 from PySide.QtCore import QUrl, QSettings
-from PySide.QtGui import QMainWindow, QMessageBox, QIcon
+from PySide.QtGui import QMainWindow, QMessageBox, QIcon, QHeaderView
 from PySide.QtNetwork import (QNetworkAccessManager, QNetworkRequest,
                               QNetworkReply)
 
@@ -41,6 +41,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if not self.usage_model.username:
             self.show_account_editor()
 
+        self.treeView.header().setResizeMode(QHeaderView.Stretch)
+        self.treeView.header().setResizeMode(0, QHeaderView.ResizeToContents)
         self.treeView.setAlternatingRowColors(True)
         self.accountName.setText(self.usage_model.name)
         self.progressBar.setHidden(True)
@@ -93,7 +95,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.tree_model.deleteLater()
                 self.tree_model = TreeModel(self.usage_model.usage)
                 self.treeView.setModel(self.tree_model)
-                self.treeView.resizeColumnToContents(0)
                 self.show_lastupdate()
                 self.write_usage()
         elif reply.error() in [QNetworkReply.AuthenticationRequiredError,
