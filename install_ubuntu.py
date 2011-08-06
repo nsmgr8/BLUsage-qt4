@@ -22,15 +22,15 @@ def install_blusage():
             print 'ERROR: Cannot create install folder: %s' % install_path
             return
 
-    pyfiles = [f for f in glob.glob('*.py') if not f.startswith('install')]
-    installed_py = [os.path.join(install_path, f) for f in pyfiles]
+    pyfiles = [f for f in glob.glob('src/*.py') if not f.startswith('install')]
+    installed_py = [os.path.join(install_path, f[4:]) for f in pyfiles]
     for src, dest in zip(pyfiles, installed_py):
         shutil.copyfile(src, dest)
         py_compile.compile(dest)
         os.remove(dest)
 
-    shutil.copyfile('blusage.png', png_file)
-    shutil.copyfile('BLUsage.desktop', desktop_launcher)
+    shutil.copyfile('resources/blusage.png', png_file)
+    shutil.copyfile('resources/BLUsage.desktop', desktop_launcher)
 
     permission = stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR | stat.S_IRGRP | \
                  stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH
@@ -57,9 +57,6 @@ def install_deps():
     inst_progress = apt.progress.base.InstallProgress()
 
     cache = apt.Cache(apt.progress.text.OpProgress())
-    cache.update()
-    cache.open()
-    cache.commit(acq_progress, inst_progress)
 
     pyside = cache['python-pyside']
     version = '1.0.3'
