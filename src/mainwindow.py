@@ -17,7 +17,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
-        self.setWindowIcon(QIcon(':/blusage.png'))
 
         self.action_Account.triggered.connect(self.show_account_editor)
         self.action_Update.triggered.connect(self.update_usage)
@@ -144,6 +143,4 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
             self.statusBar.showMessage("Last updated on: " +
                     self.usage_model.last_update.strftime("%d %b %Y, %H:%M"))
-
-import resources
 
