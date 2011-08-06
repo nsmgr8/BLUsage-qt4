@@ -1,4 +1,5 @@
 import datetime
+import urllib
 
 from BeautifulSoup import BeautifulSoup
 
@@ -19,15 +20,32 @@ class BLUsage(object):
     totalKB = 0
     capKB = 0
 
+    def __init__(self):
+        today = datetime.date.today()
+        self.start = datetime.date(year=today.year, month=today.month, day=1)
+        self.end = self.start + datetime.timedelta(days=29)
+
     @property
     def error(self):
         return self._error
     _error = ""
 
-    def __init__(self):
-        today = datetime.date.today()
-        self.start = datetime.date(year=today.year, month=today.month, day=1)
-        self.end = self.start + datetime.timedelta(days=29)
+    @property
+    def user_endpoint(self):
+        return "https://%s:%s@care.banglalionwimax.com/User" % (self.username,
+                                                                self.password)
+
+    @property
+    def post_data(self):
+        return urllib.urlencode({
+            'Page': 'UsrSesHit',
+            'Title': 'Session Calls',
+            'UserID': self.username,
+            'StartDate': self.start.toString("dd/MM/yyyy"),
+            'EndDate': self.end.toString("dd/MM/yyyy"),
+            'Submit': 'Submit',
+        })
+
 
     def parse(self, html):
         html = html.lower()

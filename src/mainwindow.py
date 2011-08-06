@@ -1,5 +1,4 @@
 import os
-import urllib
 import datetime
 
 from PySide.QtCore import QUrl, QSettings
@@ -63,19 +62,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                                  'Please enter your account details first.')
             return
 
-        url = QUrl("https://%s:%s@care.banglalionwimax.com/User" %
-                   (self.usage_model.username, self.usage_model.password))
-        post_data = urllib.urlencode({
-            'Page': 'UsrSesHit',
-            'Title': 'Session Calls',
-            'UserID': self.usage_model.username,
-            'StartDate': self.usage_model.start.toString("dd/MM/yyyy"),
-            'EndDate': self.usage_model.end.toString("dd/MM/yyyy"),
-            'Submit': 'Submit',
-        })
-
-        request = QNetworkRequest(url)
-        self.network_access_manager.post(request, post_data)
+        request = QNetworkRequest(QUrl(self.usage_model.user_endpoint))
+        self.network_access_manager.post(request, self.usage_model.post_data)
 
         self.updateButton.setEnabled(False)
         self.progressBar.setHidden(False)
