@@ -25,6 +25,10 @@
   <property name="windowTitle">
    <string>Account credentials</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="blusage.qrc">
+    <normaloff>:/blusage.png</normaloff>:/blusage.png</iconset>
+  </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -243,7 +247,9 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="blusage.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>cancelButton</sender>

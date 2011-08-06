@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'accountdialog.ui'
+# Form implementation generated from reading ui file 'resources/accountdialog.ui'
 #
-# Created: Sun Jul  3 17:42:59 2011
-#      by: pyside-uic 0.2.10 running on PySide 1.0.4
+# Created: Sun Aug  7 01:16:49 2011
+#      by: pyside-uic 0.2.9 running on PySide 1.0.5
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -15,6 +15,9 @@ class Ui_AccountDialog(object):
         AccountDialog.resize(300, 300)
         AccountDialog.setMinimumSize(QtCore.QSize(300, 300))
         AccountDialog.setMaximumSize(QtCore.QSize(300, 300))
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(":/blusage.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        AccountDialog.setWindowIcon(icon)
         self.gridLayout = QtGui.QGridLayout(AccountDialog)
         self.gridLayout.setObjectName("gridLayout")
         self.horizontalLayout_4 = QtGui.QHBoxLayout()
@@ -138,3 +141,4 @@ class Ui_AccountDialog(object):
         self.cancelButton.setText(QtGui.QApplication.translate("AccountDialog", "&Cancel", None, QtGui.QApplication.UnicodeUTF8))
         self.saveButton.setText(QtGui.QApplication.translate("AccountDialog", "&Save", None, QtGui.QApplication.UnicodeUTF8))
 
+import blusage_rc
