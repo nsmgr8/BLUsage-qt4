@@ -48,11 +48,6 @@ def install_blusage():
     os.symlink(main_pyc, bin_file)
 
 def install_deps():
-    if not os.environ['USER'] == 'root':
-        print 'ERROR: This program requires root access.'
-        print 'Use `sudo %s`' % sys.argv[0]
-        raise SystemExit(1)
-
     acq_progress = apt.progress.text.AcquireProgress()
     inst_progress = apt.progress.base.InstallProgress()
 
@@ -118,6 +113,11 @@ def uninstall():
     print 'BLUsage has been completely removed from your system! :('
 
 if __name__ == '__main__':
+    if not os.environ['USER'] == 'root':
+        print 'ERROR: This program requires root access.'
+        print 'Use `sudo %s`' % sys.argv[0]
+        raise SystemExit(1)
+
     if '-u' in sys.argv:
         uninstall()
     else:
