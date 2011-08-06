@@ -2,7 +2,7 @@ import os
 import datetime
 
 from PySide.QtCore import QUrl, QSettings
-from PySide.QtGui import QMainWindow, QMessageBox, QIcon, QHeaderView
+from PySide.QtGui import QMainWindow, QMessageBox, QHeaderView
 from PySide.QtNetwork import (QNetworkAccessManager, QNetworkRequest,
                               QNetworkReply)
 
@@ -10,6 +10,7 @@ from blusage import BLUsage
 from treemodel import TreeModel
 
 from accountdialog import AccountDialog
+from invoiceform import InvoiceForm
 from mainwindow_UI import Ui_MainWindow
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -18,9 +19,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
 
+        self.invoice_form = InvoiceForm(self)
+
         self.action_Account.triggered.connect(self.show_account_editor)
         self.action_Update.triggered.connect(self.update_usage)
         self.action_About.triggered.connect(self.about)
+        self.actionInvoice.triggered.connect(self.invoice_form.show)
 
         self.network_access_manager = QNetworkAccessManager()
         self.network_access_manager.finished.connect(self.fetched_usages)

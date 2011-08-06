@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'resources/mainwindow.ui'
 #
-# Created: Sun Aug  7 01:12:23 2011
+# Created: Sun Aug  7 01:26:54 2011
 #      by: pyside-uic 0.2.9 running on PySide 1.0.5
 #
 # WARNING! All changes made in this file will be lost!
@@ -87,9 +87,11 @@ class Ui_MainWindow(object):
         self.action_Quit.setObjectName("action_Quit")
         self.action_About = QtGui.QAction(MainWindow)
         self.action_About.setObjectName("action_About")
+        self.actionInvoice = QtGui.QAction(MainWindow)
+        self.actionInvoice.setObjectName("actionInvoice")
         self.menuFile.addAction(self.action_Account)
-        self.menuFile.addSeparator()
         self.menuFile.addAction(self.action_Update)
+        self.menuFile.addAction(self.actionInvoice)
         self.menuFile.addSeparator()
         self.menuFile.addAction(self.action_Quit)
         self.menu_Help.addAction(self.action_About)
@@ -112,11 +114,13 @@ class Ui_MainWindow(object):
         self.menuFile.setTitle(QtGui.QApplication.translate("MainWindow", "&File", None, QtGui.QApplication.UnicodeUTF8))
         self.menu_Help.setTitle(QtGui.QApplication.translate("MainWindow", "&Help", None, QtGui.QApplication.UnicodeUTF8))
         self.action_Account.setText(QtGui.QApplication.translate("MainWindow", "&Account", None, QtGui.QApplication.UnicodeUTF8))
-        self.action_Account.setShortcut(QtGui.QApplication.translate("MainWindow", "Meta+A", None, QtGui.QApplication.UnicodeUTF8))
+        self.action_Account.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+A", None, QtGui.QApplication.UnicodeUTF8))
         self.action_Update.setText(QtGui.QApplication.translate("MainWindow", "&Update", None, QtGui.QApplication.UnicodeUTF8))
-        self.action_Update.setShortcut(QtGui.QApplication.translate("MainWindow", "Meta+U", None, QtGui.QApplication.UnicodeUTF8))
+        self.action_Update.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+U", None, QtGui.QApplication.UnicodeUTF8))
         self.action_Quit.setText(QtGui.QApplication.translate("MainWindow", "&Quit", None, QtGui.QApplication.UnicodeUTF8))
         self.action_Quit.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+Q", None, QtGui.QApplication.UnicodeUTF8))
         self.action_About.setText(QtGui.QApplication.translate("MainWindow", "&About", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionInvoice.setText(QtGui.QApplication.translate("MainWindow", "&Invoice", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionInvoice.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+I", None, QtGui.QApplication.UnicodeUTF8))
 
 import blusage_rc
