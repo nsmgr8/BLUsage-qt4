@@ -57,7 +57,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.write_usage()
 
     def about(self):
-        QMessageBox.about(self, "BLUsage", "Bangla Lion bandwidth usage viewer.\n\n\tVersion 1.0\n\nAuthor: M. Nasimul Haque\n\nemail: nasim.haque@gmail.com\n\nWeb: http://www.nasim.me.uk")
+        QMessageBox.about(self, "BLUsage", "Bangla Lion bandwidth usage viewer.\n\n\tVersion 2.0\n\nAuthor: M. Nasimul Haque\n\nemail: nasim.haque@gmail.com\n\nWeb: http://www.nasim.me.uk")
 
     def update_usage(self):
         if not all([self.usage_model.username, self.usage_model.password]):
