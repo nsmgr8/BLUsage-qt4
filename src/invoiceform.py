@@ -1,7 +1,8 @@
 import os
 
 from PySide.QtNetwork import QNetworkAccessManager, QNetworkRequest, QNetworkReply
-from PySide.QtGui import QDialog, QHeaderView, QMessageBox, QAbstractItemView, QImage, QPainter
+from PySide.QtGui import (QDialog, QHeaderView, QMessageBox, QAbstractItemView,
+                          QImage, QPainter, QPixmap)
 from PySide.QtCore import Qt, QUrl, QSize
 from PySide.QtWebKit import QWebPage
 
@@ -15,7 +16,6 @@ class InvoiceForm(QDialog, Ui_InvoiceDialog):
         super(InvoiceForm, self).__init__(parent)
         self.setupUi(self)
         self.progressBar.setHidden(True)
-        self.webpage = QWebPage()
 
         self.invoice = Invoice(self)
         self.tableView.setModel(self.invoice)
@@ -25,6 +25,8 @@ class InvoiceForm(QDialog, Ui_InvoiceDialog):
 
         self.updateButton.clicked.connect(self.update_invoices)
         self.tableView.selectionModel().selectionChanged.connect(self.invoice_selected)
+
+        self.webpage = QWebPage()
         self.webpage.loadFinished.connect(self.save_invoice)
         self.webpage.networkAccessManager().sslErrors.connect(self.allow_connection)
 
@@ -39,13 +41,43 @@ class InvoiceForm(QDialog, Ui_InvoiceDialog):
             return
         if row[1].startswith('Invoice'):
             self.invoice_filename = os.path.expanduser('~/.blusage/%s.png' % row[1].lower())
-            usage = self.parentWidget().usage_model
-            url = '%s%s' % (usage.user_endpoint[:-5], self.invoice.invoices[new.indexes()[0].row()][0])
-            self.webpage.mainFrame().load(QUrl(url))
-            self.webpage.mainFrame().setScrollBarPolicy(Qt.Vertical, Qt.ScrollBarAlwaysOff)
-            self.webpage.mainFrame().setScrollBarPolicy(Qt.Horizontal, Qt.ScrollBarAlwaysOff)
-            self.webpage.setViewportSize(QSize(800, 600))
-            self.enable_ui(False)
+            if os.path.exists(self.invoice_filename):
+                self.load_invoice()
+            else:
+                usage = self.parentWidget().usage_model
+                url = '%s%s' % (usage.user_endpoint[:-5], self.invoice.invoices[new.indexes()[0].row()][0])
+                self.webpage.mainFrame().load(QUrl(url))
+                self.webpage.mainFrame().setScrollBarPolicy(Qt.Vertical, Qt.ScrollBarAlwaysOff)
+                self.webpage.mainFrame().setScrollBarPolicy(Qt.Horizontal, Qt.ScrollBarAlwaysOff)
+                self.webpage.setViewportSize(QSize(800, 600))
+                self.enable_ui(False)
+        else:
+            self.invoiceLabel.setText("""
+<center>
+    <table>
+        <tr>
+            <th>Payment #</th>
+            <td>{number}</td>
+        </tr>
+        <tr>
+            <th>Date</th>
+            <td>{date}</td>
+        </tr>
+        <tr>
+            <th>Credit</th>
+            <td>{credit}</td>
+        </tr>
+        <tr>
+            <th>Balance</th>
+            <td>{balance}</td>
+        </tr>
+    </table>
+</center>
+            """.format(number=row[1][8:], date=row[2], credit=row[3], balance=row[5]))
+
+    def load_invoice(self):
+        pixmap = QPixmap(self.invoice_filename)
+        self.invoiceLabel.setPixmap(pixmap)
 
     def update_invoices(self):
         usage = self.parentWidget().usage_model
@@ -74,6 +106,7 @@ class InvoiceForm(QDialog, Ui_InvoiceDialog):
             painter.end();
 
             image.save(self.invoice_filename)
+            self.load_invoice()
         else:
             title = "An error occured"
             message = "Could not load invoice." \

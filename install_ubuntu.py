@@ -77,11 +77,8 @@ def install_deps():
             print 'ERROR: Could not add PPA repository. Quitting...'
             raise SystemExit(1)
 
-    for pkg in ['qtcore', 'qtgui', 'qtnetwork']:
-        cache['python-pyside.%s' % pkg].mark_install()
-
-    soup = cache['python-beautifulsoup']
-    soup.mark_install()
+    cache['python-pyside'].mark_install()
+    cache['python-beautifulsoup'].mark_install()
 
     cache.commit(acq_progress, inst_progress)
 
