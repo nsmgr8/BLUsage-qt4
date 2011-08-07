@@ -8,13 +8,7 @@ A cross-platform desktop viewer for Bangla Lion internet bandwidth usage.
 Screenshot
 ==========
 
-KDE (Kubuntu)
-
-.. image:: http://farm6.static.flickr.com/5320/5901636265_4c3a799a16.jpg
-
-Gnome (Ubuntu)
-
-.. image:: http://farm7.static.flickr.com/6099/5902393690_379a0582d0.jpg
+.. image:: https://lh5.googleusercontent.com/-AnHu5ry61OQ/Tj5wVkw46tI/AAAAAAAAAm0/OXNTc0Qlofw/s1024/Screenshot-1.png
 
 Requirements
 ============
