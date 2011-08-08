@@ -8,6 +8,7 @@ from PySide.QtCore import QDate
 from BeautifulSoup import BeautifulSoup
 
 USAGE_FILE_PATH = os.path.expanduser('~/.blusage/usage.json')
+logger = logging.getLogger('BLUsage')
 
 class DailyUsage(object):
     def __init__(self, day="", dataUsed=0, detail=[]):
@@ -42,7 +43,7 @@ class BLUsage(object):
             with file(USAGE_FILE_PATH, 'r') as f:
                 self.json_to_usage(f.read())
         except Exception as e:
-            logging.debug(e)
+            logger.debug(e)
 
     @property
     def error(self):
@@ -126,7 +127,7 @@ class BLUsage(object):
             with file(USAGE_FILE_PATH, 'w') as f:
                 f.write(self.usage_to_json())
         except Exception as e:
-            logging.debug(e)
+            logger.debug(e)
             self._error = 'Could not get data.'
             return False
 
