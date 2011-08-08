@@ -1,7 +1,6 @@
 import os
-import datetime
 
-from PySide.QtCore import QUrl, QSettings
+from PySide.QtCore import QUrl, QSettings, QDate
 from PySide.QtGui import QMainWindow, QMessageBox, QHeaderView
 from PySide.QtNetwork import (QNetworkAccessManager, QNetworkRequest,
                               QNetworkReply)
@@ -120,12 +119,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         start = self.settings.value('start')
         if not start:
-            today = datetime.date.today()
-            start = datetime.date(year=today.year, month=today.month, day=1)
+            today = QDate.currentDate()
+            start = QDate(today.year(), today.month(), 1)
         self.usage_model.start = start
         end = self.settings.value('end')
         if not end:
-            end = start + datetime.timedelta(days=29)
+            end = start.addDays(29)
         self.usage_model.end = end
 
     def write_usage(self):
@@ -148,9 +147,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
             self.remainingLabel.setText("Remaining: <b>Unlimited</b>")
 
-        if not self.usage_model.last_update:
-            self.statusBar.showMessage("Ready")
-        else:
-            self.statusBar.showMessage("Last updated on: " +
-                    self.usage_model.last_update.strftime("%d %b %Y, %H:%M"))
+        try:
+            if not self.usage_model.last_update:
+                self.statusBar.showMessage("Ready")
+            else:
+                self.statusBar.showMessage("Last updated on: " +
+                    self.usage_model.last_update.toString())
+        except:
+            pass
 

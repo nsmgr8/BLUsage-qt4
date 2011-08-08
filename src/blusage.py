@@ -1,5 +1,6 @@
-import datetime
 import urllib
+
+from PySide.QtCore import QDate
 
 from BeautifulSoup import BeautifulSoup
 
@@ -14,16 +15,16 @@ class BLUsage(object):
     username = ""
     password = ""
 
-    last_update = ""
+    last_update = None
 
     usage = []
     totalKB = 0
     capKB = 0
 
     def __init__(self):
-        today = datetime.date.today()
-        self.start = datetime.date(year=today.year, month=today.month, day=1)
-        self.end = self.start + datetime.timedelta(days=29)
+        today = QDate.currentDate()
+        self.start = QDate(today.year(), today.month(), 1)
+        self.end = self.start.addDays(29)
 
     @property
     def error(self):
@@ -95,7 +96,7 @@ class BLUsage(object):
             self._error = 'Could not get data.'
             return False
 
-        self.last_update = datetime.datetime.now()
+        self.last_update = QDate.currentDate()
         return True
 
     def remaining(self):
