@@ -1,14 +1,27 @@
 import urllib
+import json
+import os
+import logging
 
 from PySide.QtCore import QDate
 
 from BeautifulSoup import BeautifulSoup
+
+USAGE_FILE_PATH = os.path.expanduser('~/.blusage/usage.json')
 
 class DailyUsage(object):
     def __init__(self, day="", dataUsed=0, detail=[]):
         self.day = day
         self.dataUsed = dataUsed
         self.detail = detail
+
+    def to_dict(self):
+        return {
+            'day': self.day,
+            'data': self.dataUsed,
+            'detail': [dict(time=d[0], data=d[1]) for d in self.detail],
+        }
+
 
 class BLUsage(object):
     name = ""
@@ -25,6 +38,11 @@ class BLUsage(object):
         today = QDate.currentDate()
         self.start = QDate(today.year(), today.month(), 1)
         self.end = self.start.addDays(29)
+        try:
+            with file(USAGE_FILE_PATH, 'r') as f:
+                self.json_to_usage(f.read())
+        except Exception as e:
+            logging.debug(e)
 
     @property
     def error(self):
@@ -47,6 +65,19 @@ class BLUsage(object):
             'Submit': 'Submit',
         })
 
+    def usage_to_json(self):
+        usage = []
+        for u in self.usage:
+            usage.append(u.to_dict())
+        return json.dumps(usage)
+
+    def json_to_usage(self, d):
+        usage = json.loads(d)
+        self.usage = []
+        for u in usage:
+            daily = DailyUsage(u['day'], u['data'])
+            daily.detail = [[d['time'], d['data']] for d in u['detail']]
+            self.usage.append(daily)
 
     def parse(self, html):
         html = html.lower()
@@ -92,7 +123,10 @@ class BLUsage(object):
             if date:
                 self.totalKB += dataKB
                 self.usage.append(DailyUsage(date, dataKB, timely))
-        except:
+            with file(USAGE_FILE_PATH, 'w') as f:
+                f.write(self.usage_to_json())
+        except Exception as e:
+            logging.debug(e)
             self._error = 'Could not get data.'
             return False
 

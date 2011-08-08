@@ -1,6 +1,7 @@
 import os
 import csv
 import urllib
+import logging
 
 from PySide.QtCore import Qt, QAbstractTableModel
 from BeautifulSoup import BeautifulSoup
@@ -11,10 +12,6 @@ class Invoice(QAbstractTableModel):
 
     def __init__(self, parent=None):
         super(Invoice, self).__init__(parent)
-        try:
-            os.mkdir(os.path.expanduser('~/.blusage'))
-        except Exception as e:
-            print e
         self.invoices = []
         try:
             with open(INVOICE_CSV, 'r') as f:
@@ -22,7 +19,7 @@ class Invoice(QAbstractTableModel):
                 for row in csvreader:
                     self.invoices.append(row)
         except Exception as e:
-            print e
+            logging.debug(e)
 
         self.header = ['Record', 'Date', 'Credit', 'Debit', 'Balance']
 
@@ -75,9 +72,9 @@ class Invoice(QAbstractTableModel):
                 for row in self.invoices:
                     csvwriter.writerow(row)
         except Exception as e:
-            print e
+            logging.debug(e)
             self._error = 'Could not get data.'
             return False
 
-        except Exception as e:
-            print e
+        return True
+
