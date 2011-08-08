@@ -53,9 +53,12 @@ def install_deps():
 
     cache = apt.Cache(apt.progress.text.OpProgress())
 
-    pyside = cache['python-pyside']
-    version = '1.0.3'
-    if not [v for v in pyside.versions if v >= version]:
+    try:
+        pyside = cache['python-pyside']
+        version = '1.0.3'
+        if not [v for v in pyside.versions if v >= version]:
+            raise
+    except:
         print "It requires pyside >=", version
         print 'Do you want to install it from PPA? (Y/n)',
         if raw_input() == 'n':
