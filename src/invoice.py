@@ -40,6 +40,8 @@ class Invoice(QAbstractTableModel):
     def data(self, index, role):
         if role == Qt.DisplayRole:
             return self.invoices[index.row()][index.column()+1]
+        if role == Qt.TextAlignmentRole and index.column() > 0:
+            return Qt.AlignRight
 
     @property
     def post_data(self):
