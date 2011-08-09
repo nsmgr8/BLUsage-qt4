@@ -71,7 +71,7 @@ class TreeModel(QAbstractItemModel):
 
     def setupModel(self, data):
         for daily in data:
-            items = [daily.day, daily.dataUsed, daily.dataUsed / 1024.0]
+            items = [daily.day, str(daily.dataUsed), "%.02f" % (daily.dataUsed / 1024.0,)]
             child = TreeItem(items, self.rootItem)
             self.rootItem.childItems.append(child)
             for detail in daily.detail:
