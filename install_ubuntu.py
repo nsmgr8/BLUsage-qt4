@@ -27,12 +27,13 @@ def install_blusage():
         shutil.copyfile(src, dest)
 
     shutil.copyfile('resources/blusage.png', png_file)
-    shutil.copyfile('resources/BLUsage.desktop', desktop_launcher)
 
     permission = stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR | stat.S_IRGRP | \
                  stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH
-    os.chmod(desktop_launcher, permission | stat.S_IWOTH | stat.S_IWGRP)
     os.chmod(main_pyc, permission)
+    if os.path.exists(os.path.dirname(desktop_launcher)):
+        shutil.copyfile('resources/BLUsage.desktop', desktop_launcher)
+        os.chmod(desktop_launcher, permission | stat.S_IWOTH | stat.S_IWGRP)
 
     parent_folder = install_path.rsplit(os.sep, 1)[0]
     bin_folder = os.path.join(parent_folder, 'bin')
