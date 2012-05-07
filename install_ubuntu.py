@@ -5,12 +5,11 @@ import apt
 import subprocess
 import glob
 import shutil
-import py_compile
 import stat
 import sys
 
 install_path = '/usr/local/blusage'
-main_pyc = os.path.join(install_path, 'main.pyc')
+main_pyc = os.path.join(install_path, 'main.py')
 desktop_launcher = os.path.expanduser('~/Desktop/BLUsage.desktop')
 png_file = os.path.join(install_path, 'blusage.png')
 
@@ -26,8 +25,6 @@ def install_blusage():
     installed_py = [os.path.join(install_path, f[4:]) for f in pyfiles]
     for src, dest in zip(pyfiles, installed_py):
         shutil.copyfile(src, dest)
-        py_compile.compile(dest)
-        os.remove(dest)
 
     shutil.copyfile('resources/blusage.png', png_file)
     shutil.copyfile('resources/BLUsage.desktop', desktop_launcher)
